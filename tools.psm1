@@ -12,8 +12,8 @@ Function New-file($filesize) {
 		Filesize in MB
         .OUTPUTS
 		An empty file the size of the input in MB
-        .NOTES
-        Version 1.0.0
+        .VERSION
+        1.0.0
      #>
 if ($filesize -eq $null) {$filesize = 10}
 $filesizeinbytes = ($filesize*1000000)
