@@ -1,0 +1,25 @@
+# Security function to compare the known hash of the module to the hash of the module downloaded from the internet
+Function Test-mHash ($moduleContent, $knownHash) {
+$string = $moduleContent
+# Convert the string to a byte array
+$bytes = [System.Text.Encoding]::UTF8.GetBytes($string)
+# Create a SHA256 hash object
+$sha256 = [System.Security.Cryptography.SHA256]::Create()
+# Compute the hash
+$hash = $sha256.ComputeHash($bytes)
+# Convert the hash byte array to a hexadecimal string
+$hashString = -join ($hash | ForEach-Object { "{0:x2}" -f $_ })
+# Compare the computed hash to the known hash
+If ($hashString -eq $knownHash) {
+    Invoke-Expression $moduleContent.Content
+} else {
+    Write-Host "Known hash: $knownHash"
+    Write-Host "Computed hash: $hashString"
+    Write-Host "Hashes do not match" -BackgroundColor Red -ForegroundColor White
+    Write-Host "Do you want to continue? (Y/N)"
+    $response = Read-Host
+    If ($response -eq "Y") {
+        Invoke-Expression $moduleContent.Content
+}
+}
+}

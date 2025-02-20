@@ -15,7 +15,7 @@ Function New-file($filesize) {
         .VERSION
         1.0.0
      #>
-if ($filesize -eq $null) {$filesize = 10}
+if ($null -eq $filesize) {$filesize = 10}
 $filesizeinbytes = ($filesize*1000000)
 $fsutilargs = "$filesize""MB.test""","$filesizeinbytes"
 fsutil file createnew $fsutilargs
